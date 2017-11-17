@@ -79,6 +79,10 @@ namespace PreselectStruggleWeapon
                         translations[i] = "Nahkampfwaffe";
                         break;
 
+                    case "Russian":
+                        translations[i] = "Основное оружие";
+                        break;
+
                     default:
                         translations[i] = "Struggle Weapon\nHelp me translate this!\nVisit https://github.com/WulfMarius/Preselect-Struggle-Weapon";
                         break;
