@@ -43,12 +43,12 @@ namespace PreselectStruggleWeapon
             PreferredStruggleWeaponId = saveData.PreferredStruggleWeapon;
         }
 
-        internal static void SaveData(string saveSlotName)
+        internal static void SaveData(SaveSlotType gameMode, string saveSlotName)
         {
             SaveData saveData = new SaveData();
             saveData.PreferredStruggleWeapon = PreferredStruggleWeaponId;
 
-            SaveGameSlots.SaveDataToSlot(saveSlotName, SAVE_SLOT_NAME, JsonConvert.SerializeObject(saveData));
+            SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveSlotName, SAVE_SLOT_NAME, JsonConvert.SerializeObject(saveData));
         }
 
         internal static void TogglePreferredStruggleWeapon(GearItem gearItem)

@@ -79,9 +79,9 @@ namespace PreselectStruggleWeapon
     [HarmonyPatch(typeof(SaveGameSystem), "SaveGlobalData")]
     internal class SaveGameSystem_SaveGlobalData
     {
-        public static void Postfix(string name)
+        public static void Postfix(SaveSlotType gameMode, string name)
         {
-            Implementation.SaveData(name);
+            Implementation.SaveData(gameMode, name);
         }
     }
 }
