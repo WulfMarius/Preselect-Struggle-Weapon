@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using UnityEngine;
 
 namespace PreselectStruggleWeapon
 {
@@ -18,6 +17,18 @@ namespace PreselectStruggleWeapon
 
             Implementation.TogglePreferredStruggleWeapon(gearItem);
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(PlayerManager), "AddToExistingStackable", new System.Type[] { typeof(string), typeof(float), typeof(int), typeof(GearItem) })]
+    internal class PlayerManager_AddToExistingStackable
+    {
+        public static void Postfix(GearItem __result, GearItem gearToAdd)
+        {
+            if (__result != null && Implementation.IsPreferredStruggleWeapon(gearToAdd))
+            {
+                Implementation.TogglePreferredStruggleWeapon(__result);
+            }
         }
     }
 
@@ -53,13 +64,13 @@ namespace PreselectStruggleWeapon
     {
         public static bool Prefix(PlayerStruggle __instance)
         {
-            var preferredGearItem = GameManager.GetInventoryComponent().FindByInstanceID(Implementation.PreferredStruggleWeaponId);
-            if (preferredGearItem == null)
+            var preferredStruggleWeapon = Implementation.GetPreferredStruggleWeapon();
+            if (preferredStruggleWeapon == null)
             {
                 return true;
             }
 
-            __instance.OnWeaponPicked(preferredGearItem);
+            __instance.OnWeaponPicked(preferredStruggleWeapon);
 
             AccessTools.Method(__instance.GetType(), "PlayPickerExitAudio").Invoke(__instance, null);
             AccessTools.Method(__instance.GetType(), "DoChangeWeapon").Invoke(__instance, null);
