@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace PreselectStruggleWeapon
+﻿namespace PreselectStruggleWeapon
 {
     public class Implementation
     {
@@ -53,14 +51,14 @@ namespace PreselectStruggleWeapon
 
         internal static void LoadData(string saveSlotName)
         {
-            string value = SaveGameSlots.LoadDataFromSlot(saveSlotName, SAVE_SLOT_NAME);
-            if (string.IsNullOrEmpty(value))
+            string json = SaveGameSlots.LoadDataFromSlot(saveSlotName, SAVE_SLOT_NAME);
+            if (string.IsNullOrEmpty(json))
             {
                 PreferredStruggleWeaponId = 0;
                 return;
             }
 
-            SaveData saveData = JsonConvert.DeserializeObject<SaveData>(value);
+            SaveData saveData = Utils.DeserializeObject<SaveData>(json);
             PreferredStruggleWeaponId = saveData.PreferredStruggleWeapon;
         }
 
@@ -69,7 +67,8 @@ namespace PreselectStruggleWeapon
             SaveData saveData = new SaveData();
             saveData.PreferredStruggleWeapon = PreferredStruggleWeaponId;
 
-            SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveSlotName, SAVE_SLOT_NAME, JsonConvert.SerializeObject(saveData));
+            string json = Utils.SerializeObject(saveData);
+            SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveSlotName, SAVE_SLOT_NAME, json);
         }
 
         private static void AddTranslations()
