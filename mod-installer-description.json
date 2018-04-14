@@ -1,0 +1,18 @@
+﻿{
+	"name": "Preselect-Struggle-Weapon",
+	"description": "Decide which weapon you will use in a wolf struggle in the comfort of your cabin.",
+	"url": "https://github.com/WulfMarius/Preselect-Struggle-Weapon",
+	"releases": [
+		{
+			"version": "2.0.0",
+			"url": "https://github.com/WulfMarius/Preselect-Struggle-Weapon/releases/tag/2.0.0",
+			"changes": "updated to work with TLD V1.27",
+			"dependencies": [],
+			"assets": [
+				{
+					"url": "https://github.com/WulfMarius/Preselect-Struggle-Weapon/releases/download/2.0.0/Preselect-Struggle-Weapon-V2.0.0.zip"
+				}
+			]
+		}
+	]
+}
