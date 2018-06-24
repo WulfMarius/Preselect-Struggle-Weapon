@@ -16,6 +16,7 @@ namespace PreselectStruggleWeapon
             }
 
             Implementation.TogglePreferredStruggleWeapon(gearItem);
+            InterfaceManager.m_Panel_Inventory.RefreshTable();
             return false;
         }
     }
@@ -37,21 +38,28 @@ namespace PreselectStruggleWeapon
     {
         public static bool Prefix(ItemDescriptionPage __instance, GearItem gi)
         {
+            var uiLocalize = __instance.m_FavoriteLabel.GetComponent<UILocalize>();
+
             if (Implementation.IsStruggleWeapon(gi))
             {
-                var isPreferredStruggleWeapon = Implementation.IsPreferredStruggleWeapon(gi);
+                bool isPreferredStruggleWeapon = Implementation.IsPreferredStruggleWeapon(gi);
 
                 Utils.SetActive(__instance.m_FavoriteObject, true);
                 Utils.SetActive(__instance.m_FavoriteCheckmark, isPreferredStruggleWeapon);
                 __instance.m_FavoriteLabel.color = isPreferredStruggleWeapon ? __instance.m_FavoriteLabelColorChecked : __instance.m_FavoriteLabelColorUnchecked;
                 __instance.m_FavoriteLabel.text = Localization.Get("GAMEPLAY_PreferredStruggleWeapon");
 
+                if (uiLocalize)
+                {
+                    uiLocalize.enabled = false;
+                }
+
                 return false;
             }
 
-            var uiLocalize = __instance.m_FavoriteLabel.GetComponent<UILocalize>();
-            if (uiLocalize)
+            if (uiLocalize && !uiLocalize.enabled)
             {
+                uiLocalize.enabled = true;
                 __instance.m_FavoriteLabel.text = Localization.Get(uiLocalize.key);
             }
 
