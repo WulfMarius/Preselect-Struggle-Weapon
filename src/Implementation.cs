@@ -1,8 +1,13 @@
-﻿namespace PreselectStruggleWeapon
+﻿using UnityEngine;
+using System.Reflection;
+
+namespace PreselectStruggleWeapon
 {
     public class Implementation
     {
         public const string SAVE_SLOT_NAME = "PreselectStruggleWeapon";
+
+        private const string NAME = "Preselect-Struggle-Weapon";
 
         public static int PreferredStruggleWeaponId
         {
@@ -32,7 +37,8 @@
 
         public static void OnLoad()
         {
-            UnityEngine.Debug.Log("[Preselect-Struggle-Weapon]: Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+            Log("Version " + assemblyName.Version);
 
             AddTranslations();
         }
@@ -60,6 +66,17 @@
 
             SaveData saveData = Utils.DeserializeObject<SaveData>(json);
             PreferredStruggleWeaponId = saveData.PreferredStruggleWeapon;
+        }
+
+        internal static void Log(string message)
+        {
+            Debug.LogFormat("[" + NAME + "] {0}", message);
+        }
+
+        internal static void Log(string message, params object[] parameters)
+        {
+            string preformattedMessage = string.Format("[" + NAME + "] {0}", message);
+            Debug.LogFormat(preformattedMessage, parameters);
         }
 
         internal static void SaveData(SaveSlotType gameMode, string saveSlotName)

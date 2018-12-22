@@ -21,18 +21,6 @@ namespace PreselectStruggleWeapon
         }
     }
 
-    [HarmonyPatch(typeof(PlayerManager), "AddToExistingStackable", new System.Type[] { typeof(string), typeof(float), typeof(int), typeof(GearItem) })]
-    internal class PlayerManager_AddToExistingStackable
-    {
-        public static void Postfix(GearItem __result, GearItem gearToAdd)
-        {
-            if (__result != null && Implementation.IsPreferredStruggleWeapon(gearToAdd))
-            {
-                Implementation.TogglePreferredStruggleWeapon(__result);
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(ItemDescriptionPage), "UpdateFavoriteStatus")]
     internal class ItemDescriptionPage_UpdateFavoriteStatus
     {
@@ -64,6 +52,18 @@ namespace PreselectStruggleWeapon
             }
 
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(PlayerManager), "AddToExistingStackable", new System.Type[] { typeof(string), typeof(float), typeof(int), typeof(GearItem) })]
+    internal class PlayerManager_AddToExistingStackable
+    {
+        public static void Postfix(GearItem __result, GearItem gearToAdd)
+        {
+            if (__result != null && Implementation.IsPreferredStruggleWeapon(gearToAdd))
+            {
+                Implementation.TogglePreferredStruggleWeapon(__result);
+            }
         }
     }
 
